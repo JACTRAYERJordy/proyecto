@@ -1,0 +1,24 @@
+<!-- Componente de detalles del hotel -->
+<div class="modal">
+  <div class="modal-content">
+    <!-- Botón para cerrar el modal -->
+    <span class="close" (click)="closeModal()">&times;</span>
+    <!-- Detalles del hotel -->
+    <img [src]="hotel.image" alt="{{ hotel.name }}" />
+    <h4>{{ hotel.name }}</h4>
+    <p class="badge">{{ hotel.badge }}</p>
+    <p class="address">{{ hotel.address }}</p>
+    <p class="rating">
+      <span class="stars">★★★★★</span> ({{ hotel.rating }})
+    </p>
+    <p class="price precio">{{ hotel.price }}</p>
+    <p class="description">{{ hotel.description }}</p>
+    <!-- Lista de servicios del hotel -->
+    <ul class="services">
+      <li *ngFor="let service of hotel.services">{{ service }}</li>
+    </ul>
+
+    <!-- Integración del componente AddInfoComponent para añadir información adicional -->
+    <app-add-info (infoAdded)="updateHotelInfo($event)"></app-add-info>
+  </div>
+</div>
