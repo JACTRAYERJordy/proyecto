@@ -1,24 +1,28 @@
-<!-- Componente de detalles del hotel -->
-<div class="modal">
-  <div class="modal-content">
+<!-- Modal de Detalles del Hotel -->
+<div id="hotelDetailsModal" class="modal" (click)="onBackdropClick($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
     <!-- Botón para cerrar el modal -->
     <span class="close" (click)="closeModal()">&times;</span>
+
+    <!-- Mostrar imágenes existentes del hotel -->
+    <div class="images">
+      <!-- Primera imagen grande -->
+      <img *ngIf="hotel.images.length > 0" [src]="hotel.images[0]" [alt]="hotel.name" class="main-image">
+
+      <!-- Otras imágenes más pequeñas -->
+      <div class="thumbnail-gallery">
+        <img *ngFor="let image of hotel.images.slice(1)" [src]="image" [alt]="hotel.name" class="thumbnail-image">
+      </div>
+    </div>
     <!-- Detalles del hotel -->
-    <img [src]="hotel.image" alt="{{ hotel.name }}" />
-    <h4>{{ hotel.name }}</h4>
-    <p class="badge">{{ hotel.badge }}</p>
-    <p class="address">{{ hotel.address }}</p>
+    <h2>{{ hotel.name }}</h2>
     <p class="rating">
       <span class="stars">★★★★★</span> ({{ hotel.rating }})
     </p>
-    <p class="price precio">{{ hotel.price }}</p>
-    <p class="description">{{ hotel.description }}</p>
-    <!-- Lista de servicios del hotel -->
-    <ul class="services">
-      <li *ngFor="let service of hotel.services">{{ service }}</li>
-    </ul>
-
     <!-- Integración del componente AddInfoComponent para añadir información adicional -->
-    <app-add-info (infoAdded)="updateHotelInfo($event)"></app-add-info>
+    <app-add-info [hotel]="hotel" (infoAdded)="updateHotelInfo($event)" (closeEvent)="closeModal()"></app-add-info>
+
+    <!-- Botón de Reservar -->
+    <button (click)="makeReservation()">Reservar</button>
   </div>
 </div>

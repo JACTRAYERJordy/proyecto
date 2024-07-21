@@ -1,5 +1,4 @@
-// Componente AddInfoComponent, que permite agregar información adicional al hotel
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-info',
@@ -7,31 +6,33 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./add-info.component.css']
 })
 export class AddInfoComponent {
-  // Propiedades para el formulario de información adicional
-  newInfo: { description: string; services: string[] } = {
-    description: '',
-    services: []
-  };
-  newService = '';
+  @Input() hotel: any;
+  @Output() infoAdded = new EventEmitter<any>();
 
-  @Output() infoAdded = new EventEmitter<{ description: string; services: string[] }>();
+  newDescription: string = '';
+  newServices: string = '';
+  newImages: string = '';
+  newWhyVisit: string = '';
 
-  // Método para agregar un servicio nuevo al hotel
-  addService() {
-    if (this.newService && this.newService.trim()) {
-      this.newInfo.services.push(this.newService.trim());
-      this.newService = '';
-    }
+  addInfo() {
+    const newInfo = {
+      description: this.newDescription,
+      services: this.newServices.split(','),
+      images: this.uniqueImages(this.newImages.split(',')),
+      whyVisit: this.newWhyVisit
+    };
+    this.infoAdded.emit(newInfo);
+    this.clearForm();
   }
 
-  // Método para eliminar un servicio de la lista
-  removeService(service: string) {
-    this.newInfo.services = this.newInfo.services.filter(s => s !== service);
+  clearForm() {
+    this.newDescription = '';
+    this.newServices = '';
+    this.newImages = '';
+    this.newWhyVisit = '';
   }
 
-  // Método para enviar la información adicional al componente padre (HotelDetailsComponent)
-  onSubmit() {
-    this.infoAdded.emit(this.newInfo);
-    this.newInfo = { description: '', services: [] }; // Reset the form
+  uniqueImages(images: string[]): string[] {
+    return Array.from(new Set(images));
   }
 }

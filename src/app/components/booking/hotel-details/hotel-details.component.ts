@@ -1,4 +1,3 @@
-// Componente de detalles del hotel, que muestra los detalles completos de un hotel
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -8,20 +7,21 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class HotelDetailsComponent {
   @Input() hotel: any;
-  @Output() close = new EventEmitter<void>();
+  @Output() closeEvent = new EventEmitter<void>();
 
-  // Método para emitir el evento de cierre del modal
   closeModal() {
-    this.close.emit();
+    this.closeEvent.emit();
   }
 
-  // Método para actualizar la información del hotel con nueva información
+  onBackdropClick(event: Event) {
+    this.closeModal();
+  }
+
   updateHotelInfo(newInfo: any) {
-    if (newInfo.description) {
-      this.hotel.description = newInfo.description;
-    }
-    if (newInfo.services.length > 0) {
-      this.hotel.services = newInfo.services;
-    }
+    Object.assign(this.hotel, newInfo);
+  }
+
+  makeReservation() {
+    alert('Tu reserva ha sido realizada con éxito');
   }
 }

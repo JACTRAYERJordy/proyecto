@@ -31,4 +31,6 @@
 </div>
 
 <!-- Modal para mostrar los detalles del hotel seleccionado -->
-<app-hotel-details [hotel]="selectedHotel" *ngIf="isModalOpen" (close)="closeModal()"></app-hotel-details>
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal($event)">
+  <app-hotel-details [hotel]="selectedHotel" (close)="closeModal()"></app-hotel-details>
+</div>
